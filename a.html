@@ -1,0 +1,29 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>A</title>
+<style>
+body{font:14px/1.5 system-ui;margin:2rem;max-width:40rem}
+.ok{color:#0a7}.bad{color:#c00}
+pre{background:#111;color:#d6e0ff;padding:1rem;border-radius:8px;white-space:pre-wrap}
+</style>
+<h1>Page A</h1>
+<p><a href="b.html">Go to B</a></p>
+<p>persisted: <strong id="p">—</strong></p>
+<p>API calls: <strong id="n">0</strong></p>
+<pre id="log"></pre>
+<script>
+const log = (m) => { logEl.textContent += m + '\n'; console.log(m); };
+const logEl = document.getElementById('log');
+let n = +(sessionStorage.getItem('api') || 0);
+document.getElementById('n').textContent = n;
+window.addEventListener('pageshow', (e) => {
+  document.getElementById('p').textContent = e.persisted;
+  document.getElementById('p').className = e.persisted ? 'ok' : 'bad';
+  log('pageshow persisted=' + e.persisted);
+  if (e.persisted) { log('skip fetch (bfcache)'); return; }
+  n += 1;
+  sessionStorage.setItem('api', String(n));
+  document.getElementById('n').textContent = n;
+  fetch('data.json').then(r => r.json()).then(j => log('fetch #' + n + ' ' + JSON.stringify(j)));
+});
+</script>
