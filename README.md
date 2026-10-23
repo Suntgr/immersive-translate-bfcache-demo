@@ -1,4 +1,4 @@
-# 沉浸式翻译 BFCache 演示 | Immersive Translate BFCache Demo
+# 沉浸式翻译 BFCache 演示
 
 ## 中文说明
 
